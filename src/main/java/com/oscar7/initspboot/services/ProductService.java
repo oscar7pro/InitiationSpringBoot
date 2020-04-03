@@ -2,15 +2,12 @@ package com.oscar7.initspboot.services;
 
 import com.oscar7.initspboot.entities.Product;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Repository
 @Service
-public interface ProductService extends PagingAndSortingRepository<Product, Integer> {
+public interface ProductService {
     /**
      * creation d'un produit
      *
@@ -38,7 +35,7 @@ public interface ProductService extends PagingAndSortingRepository<Product, Inte
      *
      * @return la liuste des produits
      */
-    public List<Product> getProducts(Product product, Pageable pageable);
+    public List<Product> getProducts(Product product, Pageable pageable, Integer pageNumber, Integer pageSize, String sortBy);
 
     /**
      * Obtenir un produit par identifient

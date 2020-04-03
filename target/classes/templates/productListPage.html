@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <div content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<table class="table table-striped ">
-    <thead>
+    <table class="table table-striped ">
+        <thead>
         <tr>
             <th>Identifient</th>
             <th>nom</th>
@@ -10,8 +10,8 @@
             <th>Quantité</th>
             <th>Prix</th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         <tr th:each="product:${products}">
             <td th:text="${product.id}"></td>
             <td th:text="${product.name}"></td>
@@ -19,7 +19,7 @@
             <td th:text="${product.quantity}"></td>
             <td th:text="${product.price}"></td>
         </tr>
-    </tbody>
-</table>
+        </tbody>
+    </table>
 </div>
 </html>

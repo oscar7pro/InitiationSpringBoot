@@ -19,7 +19,6 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Controller
-@RequiredArgsConstructor
 public class PageController {
 
     @Autowired
@@ -45,7 +44,7 @@ public class PageController {
                                  @RequestParam(defaultValue = "3") Integer pageSize,
                                  @RequestParam(defaultValue = "0") String sortBy) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
-        List<Product> allProduct = productService.getProducts(product, pageable);
+        List<Product> allProduct = productService.getProducts(product, pageable, pageNumber, pageSize, sortBy);
         model.addAttribute("products", allProduct);
         return "productsPage";
     }

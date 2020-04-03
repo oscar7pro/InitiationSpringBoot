@@ -5,6 +5,7 @@
 /home/osee/WorkSpace/InitiationSpringBoot/src/main/java/com/oscar7/initspboot/services/impl/OthersServiceImpl.java
 /home/osee/WorkSpace/InitiationSpringBoot/src/main/java/com/oscar7/initspboot/entities/Person.java
 /home/osee/WorkSpace/InitiationSpringBoot/src/main/java/com/oscar7/initspboot/services/ProductService.java
+/home/osee/WorkSpace/InitiationSpringBoot/src/main/java/com/oscar7/initspboot/repository/ProductRepository.java
 /home/osee/WorkSpace/InitiationSpringBoot/src/main/java/com/oscar7/initspboot/controller/PageController.java
 /home/osee/WorkSpace/InitiationSpringBoot/src/main/java/com/oscar7/initspboot/services/PersonService.java
 /home/osee/WorkSpace/InitiationSpringBoot/src/main/java/com/oscar7/initspboot/services/impl/CategoryServiceImpl.java

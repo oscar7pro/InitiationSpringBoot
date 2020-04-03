@@ -1,20 +1,22 @@
 package com.oscar7.initspboot.services.impl;
 
 import com.oscar7.initspboot.entities.Product;
+import com.oscar7.initspboot.repository.ProductRepository;
 import com.oscar7.initspboot.services.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-
-    private static Map<Integer, Product> productRepo = new HashMap<>();
-    static int maxId = 0;
 
     Product getProductsRepository(final List<Product> products, Pageable paging) {
         Product redPoivron = new Product();
@@ -94,82 +96,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    static {
-        Product redPoivron = new Product();
-        redPoivron.setId(1);
-        redPoivron.setName("Poivron rouge");
-        redPoivron.setDescription("Le kilo de poivron rouge");
-        redPoivron.setQuantity(80555);
-        redPoivron.setPrice(1.99);
-        productRepo.put(redPoivron.getId(), redPoivron);
-
-        Product greenProduct = new Product();
-        greenProduct.setId(2);
-        greenProduct.setName("Poivre vert");
-        greenProduct.setDescription("Le kilo de poivron vert");
-        greenProduct.setPrice(1.89);
-        greenProduct.setQuantity(51000);
-        productRepo.put(greenProduct.getId(), greenProduct);
-
-        Product gProduct = new Product();
-        gProduct.setId(2);
-        gProduct.setName("Poivre vert");
-        gProduct.setDescription("Le kilo de poivron vert");
-        gProduct.setPrice(1.89);
-        gProduct.setQuantity(51000);
-        productRepo.put(gProduct.getId(), greenProduct);
-
-        Product greProduct = new Product();
-        greProduct.setId(2);
-        greProduct.setName("Poivre vert");
-        greProduct.setDescription("Le kilo de poivron vert");
-        greProduct.setPrice(1.89);
-        greProduct.setQuantity(51000);
-        productRepo.put(greProduct.getId(), greenProduct);
-
-        Product greeProduct = new Product();
-        greeProduct.setId(2);
-        greeProduct.setName("Poivre vert");
-        greeProduct.setDescription("Le kilo de poivron vert");
-        greeProduct.setPrice(1.89);
-        greeProduct.setQuantity(51000);
-        productRepo.put(greeProduct.getId(), greenProduct);
-
-
-        Product yellowProduct = new Product();
-        yellowProduct.setId(4);
-        yellowProduct.setName("Poivre jaune");
-        yellowProduct.setQuantity(59000);
-        yellowProduct.setDescription("Le kilo de poivron vert");
-        yellowProduct.setPrice(1.79);
-        productRepo.put(yellowProduct.getId(), yellowProduct);
-
-        Product blackProduct = new Product();
-        blackProduct.setId(5);
-        blackProduct.setName("Poivre jaune");
-        blackProduct.setQuantity(59000);
-        blackProduct.setDescription("Le kilo de poivron vert");
-        blackProduct.setPrice(1.69);
-        productRepo.put(blackProduct.getId(), blackProduct);
-
-        Product tProduct = new Product();
-        tProduct.setId(6);
-        tProduct.setName("Poivre jaune");
-        tProduct.setQuantity(59000);
-        tProduct.setDescription("Le kilo de poivron vert");
-        tProduct.setPrice(1.79);
-        productRepo.put(tProduct.getId(), tProduct);
-
-        Product mixtProduct = new Product();
-        mixtProduct.setId(7);
-        mixtProduct.setName("Poivre jaune");
-        mixtProduct.setQuantity(59000);
-        mixtProduct.setDescription("Le kilo de poivron vert");
-        mixtProduct.setPrice(1.79);
-        productRepo.put(mixtProduct.getId(), mixtProduct);
-
-    }
-
     /**
      * creation d'un produit
      *
@@ -178,10 +104,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void createProduct(Product product) {
         if (product.getId() == 0) {
-            maxId++;
-            product.setId(maxId);
+            product.setId(product.getId());
+            product.setName(product.getName());
+            product.setDescription(product.getDescription());
+            product.setQuantity(product.getQuantity());
+            product.setPrice(product.getPrice());
         }
-        productRepo.put(product.getId(), product);
     }
 
     /**
@@ -192,9 +120,8 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public void updateProduct(int id, Product product) {
-        productRepo.remove(id);
+        product.remove(id);
         product.setId(id);
-        productRepo.put(id, product);
     }
 
     /**
@@ -204,7 +131,16 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public void deleteProduct(int id) {
-        productRepo.remove(id);
+
+    }
+
+    /**
+     * Suppression d'un produit
+     *
+     * @param id identifient produit
+     */
+    public void deleteProduct(int id, Product product) {
+        product.remove(id);
     }
 
     /**
@@ -213,89 +149,33 @@ public class ProductServiceImpl implements ProductService {
      * @return la liste des produits
      */
     @Override
-    public List<Product> getProducts(final Product product, final Pageable pageable) {
-        Pageable pag = PageRequest.of(0, 3);
-        Page<Product> pageResult = (Page<Product>) getProductsRepository(product, pageable);
-        return getProductsRepository(product, (Pageable) pageResult);
-     /*   if(pageResult..hasContent()) {
+    public List<Product> getProducts(final Product product, final Pageable pageable, final Integer pageNumber, final Integer pageSize, final String sortBy) {
+        Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+        //Page<Product> pageResult = repository.findAll(paging);
+        return getProductsRepository(product, paging);
+        /*if (pageResult.hasContent()) {
             return pageResult.getContent();
-        } else  {
-            //return new ArrayList<Product>();
+        } else {
             return getProductsRepository(product, paging);
         }*/
     }
 
+    /**
+     * Obtenir un produit par identifient
+     *
+     * @param id identifiant
+     * @return le produit
+     */
     @Override
     public Product getProductById(int id) {
-        Product productId = productRepo.get(id);
-        if (productId != null) {
-            return productRepo.get(id);
-        }
-        throw new IllegalArgumentException("pas de produit " + productId);
-    }
-
-    @Override
-    public Iterable<Product> findAll(Sort sort) {
         return null;
     }
 
-    @Override
-    public Page<Product> findAll(Pageable pageable) {
+
+    public Product getProductById(Product product) {
         return null;
-    }
-
-    @Override
-    public <S extends Product> S save(S products) {
-        return null;
-    }
-
-    @Override
-    public <S extends Product> Iterable<S> saveAll(Iterable<S> iterable) {
-        return null;
-    }
-
-    @Override
-    public Optional<Product> findById(Integer integer) {
-        return Optional.empty();
-    }
-
-    @Override
-    public boolean existsById(Integer integer) {
-        return false;
-    }
-
-    @Override
-    public Iterable<Product> findAll() {
-        return null;
-    }
-
-    @Override
-    public Iterable<Product> findAllById(Iterable<Integer> iterable) {
-        return null;
-    }
-
-    @Override
-    public long count() {
-        return 0;
-    }
-
-    @Override
-    public void deleteById(Integer integer) {
 
     }
 
-    @Override
-    public void delete(Product product) {
 
-    }
-
-    @Override
-    public void deleteAll(Iterable<? extends Product> iterable) {
-
-    }
-
-    @Override
-    public void deleteAll() {
-
-    }
 }
