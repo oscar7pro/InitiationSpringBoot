@@ -1,9 +1,10 @@
+com/oscar7/initspboot/utils/PersonUtils.class
 com/oscar7/initspboot/entities/Product.class
 com/oscar7/initspboot/services/PersonService.class
 com/oscar7/initspboot/services/impl/CategoryServiceImpl.class
 com/oscar7/initspboot/services/CategoryService.class
 com/oscar7/initspboot/controller/PageController.class
-com/oscar7/initspboot/repository/ProductRepository.class
+com/oscar7/initspboot/utils/ProductUtils.class
 com/oscar7/initspboot/services/impl/PersonServiceImpl.class
 com/oscar7/initspboot/services/impl/OthersServiceImpl.class
 com/oscar7/initspboot/services/ProductService.class

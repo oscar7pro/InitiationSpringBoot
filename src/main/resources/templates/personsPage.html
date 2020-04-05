@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Page personne</title>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}">
+</head>
+<div class="container">
+    <div content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <table class="table table-striped ">
+            <thead>
+            <tr>
+                <th>Identifient</th>
+                <th>nom</th>
+                <th>Prenom</th>
+                <th>Mail</th>
+                <th>Date de Naissance</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--    <tr th:each="person, iStat :${personPage.content}"
+                    th:style="${iStat.odd}? 'fond-weight: bold;'"
+                    th:alt-title="${iStat.even}? 'even : 'odd'">-->
+            <tr th:each="person:${personPage.content}">
+                <td th:text="${person.id}"></td>
+                <td th:text="${person.name}"></td>
+                <td th:text="${person.firstName}"></td>
+                <td th:text="${person.email}"></td>
+                <td th:text="${person.birthDay}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <!--    <div th:if="${personPage.totalPages > 0}" class="pagination"
+                 th:each="pageNumber: ${pageNumbers}">
+                <a th:href="@{/persons(size=${personPage.size}, page=${pageNumber})}"
+                   th:text="${pageNumber}"
+                   th:class="${pageNumber==personPage.number + 1} ? active"></a>
+            </div>-->
+        <!-- personPage pagination -->
+        <nav aria-label="Pagination" th:if="${personPage.totalPages > 0}">
+            <ul class="pagination justify-content-center font-weight-medium">
+                <li class="page-item" th:classappend="${personPage.number eq 0} ? 'disabled'">
+                    <a class="page-link svg-icon"
+                       th:href="@{/persons?page={id}(id=${personPage.number lt 2 ? 1 : personPage.number})}"
+                       aria-label="Previous"
+                       title="Previous Page" rel="tooltip">
+                        <span aria-hidden="true" data-feather="chevrons-left" width="20" height="20">Precedent</span>
+                    </a>
+                </li>
+                <li class="page-item" th:classappend="${pageNumber eq personPage.number + 1} ? 'active'"
+                    th:each="pageNumber : ${#numbers.sequence( personPage.number + 1, personPage.totalPages > 10 + personPage.number ? personPage.number + 10 : personPage.totalPages, 1)}">
+                    <a class="page-link" th:href="@{/persons?page={id}(id=${pageNumber})}" th:text="${pageNumber}"
+                       th:title="${'Page '+ pageNumber}"
+                       rel="tooltip"></a>
+                </li>
+                <li class="page-item disabled" th:if="${personPage.number + 10 < personPage.totalPages}">
+                    <a class="page-link svg-icon" href="#">
+                        <span data-feather="more-horizontal" width="20" height="20"></span>
+                    </a>
+                </li>
+                <li class="page-item" th:classappend="${personPage.number + 1 eq personPage.totalPages} ? 'disabled'">
+                    <a class="page-link svg-icon" th:href="@{/persons?page={id}(id=${personPage.number + 2})}"
+                       aria-label="Next"
+                       title="Next Page" rel="tooltip">
+                        <span aria-hidden="true" data-feather="chevrons-right" width="20" height="20">Suivant</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div>
+            <p>
+                <!-- <a th:href="@{/}" th:text=#"Accueil"></a>-->
+            </p>
+        </div>
+    </div>
+</div>
+</html>

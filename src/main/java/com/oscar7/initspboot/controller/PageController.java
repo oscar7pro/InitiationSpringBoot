@@ -2,30 +2,38 @@ package com.oscar7.initspboot.controller;
 
 
 import com.oscar7.initspboot.config.ConfigProperties;
+import com.oscar7.initspboot.entities.Person;
 import com.oscar7.initspboot.entities.Product;
+import com.oscar7.initspboot.services.PersonService;
 import com.oscar7.initspboot.services.ProductService;
-import lombok.RequiredArgsConstructor;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Controller
 public class PageController {
 
     @Autowired
-    private ConfigProperties configProperties;
+    ConfigProperties configProperties;
 
     @Autowired
-    private ProductService productService;
+    PersonService personService;
+
+
+    @Autowired
+    ProductService productService;
 
     @GetMapping(value = "/")
     public String home(Model model) {
@@ -33,41 +41,40 @@ public class PageController {
         return "index";
     }
 
-    /*@GetMapping(value = "/products")
-    public ResponseEntity<Object> getProduct() {
-        return new ResponseEntity<>(productService.getProducts(), HttpStatus.OK);
-    }*/
+    //@RequestMapping(value = "/persons", method = RequestMethod.GET)
+    @GetMapping("/persons")
+    public String listPersons(Model model,
+                              @RequestParam("page") Optional<Integer> page,
+                              @RequestParam("size") Optional<Integer> size
+    ) {
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(7);
+        Page<Person> personPage = personService.findPersonsPaginated(PageRequest.of(currentPage - 1, pageSize));
+        model.addAttribute("personPage", personPage);
+        int totalPages = personPage.getTotalPages();
+        getPageNumbers(model, totalPages);
+        return "personsPage.html";
+    }
 
     @GetMapping(value = "/products")
-    public String getProductList(final Model model, @NotNull Product product,
-                                 @RequestParam(defaultValue = "0") Integer pageNumber,
-                                 @RequestParam(defaultValue = "3") Integer pageSize,
-                                 @RequestParam(defaultValue = "0") String sortBy) {
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
-        List<Product> allProduct = productService.getProducts(product, pageable, pageNumber, pageSize, sortBy);
-        model.addAttribute("products", allProduct);
+    public String getProductList(final Model model,
+                                 @RequestParam("page") Optional<Integer> page,
+                                 @RequestParam("size") Optional<Integer> size) {
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(10);
+        Page<Product> productPage = productService.findProductsPaginated(PageRequest.of(currentPage - 1, pageSize));
+        model.addAttribute("productPage", productPage);
+        int totalPages = productPage.getTotalPages();
+        getPageNumbers(model, totalPages);
         return "productsPage";
+
     }
 
-    @RequestMapping(value = "/products/{id}", method = RequestMethod.PUT)
-    // @PutMapping(value = "/products/{id}")
-    public ResponseEntity<Object> updateProduct(@PathVariable("id") int id, @RequestBody Product product) {
-        productService.updateProduct(id, product);
-        return new ResponseEntity<>("Mise à jour du produit avec succès", HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "product/{id}", method = RequestMethod.DELETE)
-    //@DeleteMapping(value = "product/{id}")
-    public ResponseEntity<Object> delete(@PathVariable("id") int id) {
-        productService.deleteProduct(id);
-        return new ResponseEntity<>("Le produit a été supprimé avec succès ", HttpStatus.OK);
-    }
-
-    @PostMapping(value = "/products")
-    //@RequestMapping(value = "/products", method = RequestMethod.POST)
-    public ResponseEntity<Object> createProduct(@RequestBody Product product) {
-        productService.createProduct(product);
-        return new ResponseEntity<>("Le produit a été ajouté avec succès: ", HttpStatus.CREATED);
+    private void getPageNumbers(Model model, int totalPages) {
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
     }
 
 

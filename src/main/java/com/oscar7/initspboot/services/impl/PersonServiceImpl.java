@@ -2,83 +2,32 @@ package com.oscar7.initspboot.services.impl;
 
 import com.oscar7.initspboot.entities.Person;
 import com.oscar7.initspboot.services.PersonService;
+import com.oscar7.initspboot.utils.PersonUtils;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
+@Service
 public class PersonServiceImpl implements PersonService {
-    @Override
-    public List<Person> findAllById(int id, Pageable pageable) {
-        return null;
-    }
+    final List<Person> persons = PersonUtils.buildPersons();
 
-    @Override
-    public Iterable<Person> findAll(Sort sort) {
-        return null;
-    }
-
-    @Override
-    public Page<Person> findAll(Pageable pageable) {
-        Pageable pageWithTwoElements = PageRequest.of(0, 2);
-        return null;
-    }
-
-    @Override
-    public <S extends Person> S save(S s) {
-        return null;
-    }
-
-    @Override
-    public <S extends Person> Iterable<S> saveAll(Iterable<S> iterable) {
-        return null;
-    }
-
-    @Override
-    public Optional<Person> findById(Integer integer) {
-        return Optional.empty();
-    }
-
-    @Override
-    public boolean existsById(Integer integer) {
-        return false;
-    }
-
-    @Override
-    public Iterable<Person> findAll() {
-        return null;
-    }
-
-    @Override
-    public Iterable<Person> findAllById(Iterable<Integer> iterable) {
-        return null;
-    }
-
-    @Override
-    public long count() {
-        return 0;
-    }
-
-    @Override
-    public void deleteById(Integer integer) {
-
-    }
-
-    @Override
-    public void delete(Person person) {
-
-    }
-
-    @Override
-    public void deleteAll(Iterable<? extends Person> iterable) {
-
-    }
-
-    @Override
-    public void deleteAll() {
-
+    public Page<Person> findPersonsPaginated(Pageable pageable) {
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startPersonPage = currentPage * pageSize;
+        List<Person> list;
+        if (persons.size() < startPersonPage) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startPersonPage + pageSize, persons.size());
+            list = persons.subList(startPersonPage, toIndex);
+        }
+        Page<Person> personPage = new PageImpl<Person>(list, PageRequest.of(currentPage, pageSize), persons.size());
+        return personPage;
     }
 }
