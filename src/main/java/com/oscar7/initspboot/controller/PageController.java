@@ -9,6 +9,7 @@ import com.oscar7.initspboot.services.CategoryService;
 import com.oscar7.initspboot.services.PersonService;
 import com.oscar7.initspboot.services.ProductService;
 import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,21 +24,17 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Controller
+@RequiredArgsConstructor
 public class PageController {
 
-    @Autowired
     ConfigProperties configProperties;
 
-    @Autowired
     PersonService personService;
 
-
-    @Autowired
     ProductService productService;
 
-    @Autowired
     CategoryService categoryService;
 
     @GetMapping(value = "/")
@@ -48,7 +45,7 @@ public class PageController {
 
     //@RequestMapping(value = "/persons", method = RequestMethod.GET)
     @GetMapping("/persons")
-    public String listPersons(Model model,
+    public String getPersonList(Model model,
                               @RequestParam("page") Optional<Integer> page,
                               @RequestParam("size") Optional<Integer> size
     ) {

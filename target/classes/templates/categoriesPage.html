@@ -55,7 +55,8 @@
                         <span data-feather="more-horizontal" width="20" height="20"></span>
                     </a>
                 </li>
-                <li class="page-item" th:classappend="${categoryPage.number + 1 eq categoryPage.totalPages} ? 'disabled'">
+                <li class="page-item"
+                    th:classappend="${categoryPage.number + 1 eq categoryPage.totalPages} ? 'disabled'">
                     <a class="page-link svg-icon" th:href="@{/categories?page={id}(id=${categoryPage.number + 2})}"
                        aria-label="Next"
                        title="Next Page" rel="tooltip">
