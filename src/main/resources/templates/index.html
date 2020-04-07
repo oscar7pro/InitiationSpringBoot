@@ -19,9 +19,9 @@
         <a class="p-2 text-dark" th:text="${prestation}" href="#">..</a>
         <a class="p-2 text-dark" th:text="${offrePublic}" href="#"></a>
         <a class="p-2 text-dark" th:text="${offreProf}" href="#"></a>
-        <a class="p-2 text-dark" th:text="${offreParticulier}" href="#"></a>
-        <a class="p-2 text-dark" th:text="${category}" href="#"></a>
-        <a class="p-2 text-dark" th:text="${products}" href="#"></a>
+        <a class="p-2 text-dark" th:text="${offreParticulier}" href="#" th:href="@{/persons}"></a>
+        <a class="p-2 text-dark" th:text="${category}" href="#" th:href="@{/categories}"></a>
+        <a class="p-2 text-dark" th:text="${products}" href="#" th:href="@{/products}"></a>
     </nav>
     <a class="btn btn-outline-primary" th:text="${login}" href="#"></a>
 </div>
@@ -66,8 +66,8 @@
                 <button type="button" class="btn btn-lg btn-block btn-outline-secondary"
                         th:text="${categorytList}"></button>
                 <button type="button" class="btn btn-lg btn-block btn-primary" th:text="${addCategory}"></button>
-                <button type="button" class="btn btn-lg btn-block btn-success" th:text="${newProductCategory}"></button>
-                <button type="button" class="btn btn-lg btn-block btn-info" th:text="${bestProductCategory}"></button>
+                <button type="button" class="btn btn-lg btn-block btn-success" th:text="${editCategory}"></button>
+                <button type="button" class="btn btn-lg btn-block btn-info" th:text="${deleteCategory}"></button>
             </div>
         </div>
         <div class="card mb-4 box-shadow">
@@ -82,11 +82,11 @@
                 <button type="button" class="btn btn-lg btn-block btn-outline-warning"
                         th:text="${sanitizedMonitoring}"></button>
                 <button type="button" class="btn btn-lg btn-block btn-outline-secondary"
-                        th:text="${OthersService}"></button>
+                        th:text="${orderList}"></button>
 
-                <button type="button" class="btn btn-lg btn-block btn-primary" th:text="${addCompany}"></button>
-                <button type="button" class="btn btn-lg btn-block btn-success" th:text="${orderList}"></button>
-                <button type="button" class="btn btn-lg btn-block btn-info" th:text="${addToContact}"></button>
+                <button type="button" class="btn btn-lg btn-block btn-primary" th:text="${addToContact}"></button>
+                <button type="button" class="btn btn-lg btn-block btn-success" th:text="${editPerson}"></button>
+                <button type="button" class="btn btn-lg btn-block btn-info" th:text="${deletePerson}"></button>
             </div>
         </div>
     </div>

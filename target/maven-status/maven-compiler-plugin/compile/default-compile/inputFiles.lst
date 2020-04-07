@@ -1,8 +1,10 @@
 /home/osee/WorkSpace/InitiationSpringBoot/src/main/java/com/oscar7/initspboot/InitspbootApplication.java
 /home/osee/WorkSpace/InitiationSpringBoot/src/main/java/com/oscar7/initspboot/services/impl/ProductServiceImpl.java
 /home/osee/WorkSpace/InitiationSpringBoot/src/main/java/com/oscar7/initspboot/services/OthersService.java
+/home/osee/WorkSpace/InitiationSpringBoot/src/main/java/com/oscar7/initspboot/entities/Category.java
 /home/osee/WorkSpace/InitiationSpringBoot/src/main/java/com/oscar7/initspboot/services/CategoryService.java
 /home/osee/WorkSpace/InitiationSpringBoot/src/main/java/com/oscar7/initspboot/services/impl/OthersServiceImpl.java
+/home/osee/WorkSpace/InitiationSpringBoot/src/main/java/com/oscar7/initspboot/utils/CategoryUtils.java
 /home/osee/WorkSpace/InitiationSpringBoot/src/main/java/com/oscar7/initspboot/entities/Person.java
 /home/osee/WorkSpace/InitiationSpringBoot/src/main/java/com/oscar7/initspboot/services/ProductService.java
 /home/osee/WorkSpace/InitiationSpringBoot/src/main/java/com/oscar7/initspboot/utils/PersonUtils.java

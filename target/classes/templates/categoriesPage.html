@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Page personne</title>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}">
+</head>
+<div class="container">
+    <div content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <table class="table table-striped ">
+            <thead>
+            <tr>
+                <th>Identifient</th>
+                <th>nom</th>
+                <th>Produits</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--    <tr th:each="category, iStat :${categoryPage.content}"
+                    th:style="${iStat.odd}? 'fond-weight: bold;'"
+                    th:alt-title="${iStat.even}? 'even : 'odd'">-->
+            <tr th:each="category:${categoryPage.content}">
+                <td th:text="${category.id}"></td>
+                <td th:text="${category.name}"></td>
+                <td th:text="${category.products}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <!--    <div th:if="${categoryPage.totalPages > 0}" class="pagination"
+                 th:each="pageNumber: ${pageNumbers}">
+                <a th:href="@{/categories(size=${categoryPage.size}, page=${pageNumber})}"
+                   th:text="${pageNumber}"
+                   th:class="${pageNumber==categoryPage.number + 1} ? active"></a>
+            </div>-->
+        <!-- categoryPage pagination -->
+        <nav aria-label="Pagination" th:if="${categoryPage.totalPages > 0}">
+            <ul class="pagination justify-content-center font-weight-medium">
+                <li class="page-item" th:classappend="${categoryPage.number eq 0} ? 'disabled'">
+                    <a class="page-link svg-icon"
+                       th:href="@{/categories?page={id}(id=${categoryPage.number lt 2 ? 1 : categoryPage.number})}"
+                       aria-label="Previous"
+                       title="Previous Page" rel="tooltip">
+                        <span aria-hidden="true" data-feather="chevrons-left" width="20" height="20">Precedent</span>
+                    </a>
+                </li>
+                <li class="page-item" th:classappend="${pageNumber eq categoryPage.number + 1} ? 'active'"
+                    th:each="pageNumber : ${#numbers.sequence( categoryPage.number + 1, categoryPage.totalPages > 10 + categoryPage.number ? categoryPage.number + 10 : categoryPage.totalPages, 1)}">
+                    <a class="page-link" th:href="@{/categories?page={id}(id=${pageNumber})}" th:text="${pageNumber}"
+                       th:title="${'Page '+ pageNumber}"
+                       rel="tooltip"></a>
+                </li>
+                <li class="page-item disabled" th:if="${categoryPage.number + 10 < categoryPage.totalPages}">
+                    <a class="page-link svg-icon" href="#">
+                        <span data-feather="more-horizontal" width="20" height="20"></span>
+                    </a>
+                </li>
+                <li class="page-item" th:classappend="${categoryPage.number + 1 eq categoryPage.totalPages} ? 'disabled'">
+                    <a class="page-link svg-icon" th:href="@{/categories?page={id}(id=${categoryPage.number + 2})}"
+                       aria-label="Next"
+                       title="Next Page" rel="tooltip">
+                        <span aria-hidden="true" data-feather="chevrons-right" width="20" height="20">Suivant</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div>
+            <p>
+                <!-- <a th:href="@{/}" th:text=#"Accueil"></a>-->
+            </p>
+        </div>
+    </div>
+</div>
+</html>

@@ -2,8 +2,10 @@ package com.oscar7.initspboot.controller;
 
 
 import com.oscar7.initspboot.config.ConfigProperties;
+import com.oscar7.initspboot.entities.Category;
 import com.oscar7.initspboot.entities.Person;
 import com.oscar7.initspboot.entities.Product;
+import com.oscar7.initspboot.services.CategoryService;
 import com.oscar7.initspboot.services.PersonService;
 import com.oscar7.initspboot.services.ProductService;
 import lombok.AccessLevel;
@@ -34,6 +36,9 @@ public class PageController {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    CategoryService categoryService;
 
     @GetMapping(value = "/")
     public String home(Model model) {
@@ -70,6 +75,20 @@ public class PageController {
 
     }
 
+    @GetMapping(value = "/categories")
+    public String getCategoryList(final Model model,
+                                  @RequestParam("page") Optional<Integer> page,
+                                  @RequestParam("size") Optional<Integer> size) {
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(5);
+        Page<Category> categoryPage = categoryService.findCategoriesPage(PageRequest.of(currentPage, pageSize));
+        model.addAttribute("categoryPage", categoryPage);
+        int totalPages = categoryPage.getTotalPages();
+        getPageNumbers(model, totalPages);
+        return "categoriesPage";
+
+    }
+
     private void getPageNumbers(Model model, int totalPages) {
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
@@ -79,6 +98,11 @@ public class PageController {
 
 
     private void getProperties(Model model) {
+        model.addAttribute("home", configProperties.getHome());
+        model.addAttribute("deleteCategory", configProperties.getDeleteCategory());
+        model.addAttribute("deletePerson", configProperties.getDeletePerson());
+        model.addAttribute("editCategory", configProperties.getEditCategory());
+        model.addAttribute("editPerson", configProperties.getEditPerson());
         model.addAttribute("logo", configProperties.getLogo());
         model.addAttribute("legend", configProperties.getLegende());
         model.addAttribute("title", configProperties.getTitle());
