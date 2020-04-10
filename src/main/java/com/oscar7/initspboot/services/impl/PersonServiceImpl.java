@@ -30,4 +30,16 @@ public class PersonServiceImpl implements PersonService {
         Page<Person> personPage = new PageImpl<Person>(list, PageRequest.of(currentPage, pageSize), persons.size());
         return personPage;
     }
+
+    @Override
+    public Person createPerson() {
+        Person person = new Person();
+        person.setId(1);
+        person.setName();
+        person.setId(1);
+        person.setId(1);
+        person.setId(1);
+        return person;
+
+    }
 }

@@ -6,16 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.util.ArrayList;
-
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product {
-     int id;
-     String name;
-     String description;
-     int quantity;
-     Double price;
+    int id;
+    String name;
+    String description;
+    int quantity;
+    Double price;
 }

@@ -7,4 +7,6 @@ import org.springframework.data.domain.Pageable;
 public interface PersonService {
 
     public Page<Person> findPersonsPaginated(Pageable pageable);
+
+    public Person createPerson();
 }
