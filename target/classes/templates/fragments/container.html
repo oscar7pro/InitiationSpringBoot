@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml">
+<div class="container">
+    <div class="card-deck mb-3 text-center">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <button type="button" class="btn btn-lg btn-block btn-danger" th:text="${products}"></button>
+            </div>
+            <div class="card-body">
+                <button type="button" class="btn btn-lg btn-block btn-outline-primary"
+                        th:text="${outOfStockProduct}"></button>
+                <button type="button" class="btn btn-lg btn-block btn-outline-danger"
+                        th:text="${recentlyEditProductList}"></button>
+                <button type="button" class="btn btn-lg btn-block btn-outline-warning"
+                        th:text="${presentlyAddToCardProductList}"></button>
+                <button type="button" class="btn btn-lg btn-block btn-outline-secondary"
+                        th:text="${productList}"></button>
+                <button type="button" class="btn btn-lg btn-block btn-outline-primary" th:text="${addProduct}"></button>
+                <button type="button" class="btn btn-lg btn-block btn-outline-success"
+                        th:text="${editProduct}"></button>
+                <button type="button" class="btn btn-lg btn-block btn-outline-info" th:text="${deleteProduct}"></button>
+            </div>
+        </div>
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <button type="button" class="btn btn-lg btn-block btn-danger" th:text="${category}"></button>
+            </div>
+            <div class="card-body">
+                <button type="button" class="btn btn-lg btn-block btn-outline-primary"
+                        th:text="${outOfStockCategory}"></button>
+                <button type="button" class="btn btn-lg btn-block btn-outline-danger"
+                        th:text="${updateAttributesCategorie}"></button>
+                <button type="button" class="btn btn-lg btn-block btn-outline-warning"
+                        th:text="${promotionCategories}"></button>
+                <button type="button" class="btn btn-lg btn-block btn-outline-secondary"
+                        th:text="${categorytList}"></button>
+                <button type="button" class="btn btn-lg btn-block btn-primary" th:text="${addCategory}"></button>
+                <button type="button" class="btn btn-lg btn-block btn-success" th:text="${editCategory}"></button>
+                <button type="button" class="btn btn-lg btn-block btn-info" th:text="${deleteCategory}"></button>
+            </div>
+        </div>
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <button type="button" class="btn btn-lg btn-block btn-danger" th:text="${offreProf}"></button>
+            </div>
+            <div class="card-body">
+                <button type="button" class="btn btn-lg btn-block btn-outline-primary"
+                        th:text="${addBillingAddress}"></button>
+                <button type="button" class="btn btn-lg btn-block btn-outline-danger"
+                        th:text="${geolocalizedPointOfServiceList}"></button>
+                <button type="button" class="btn btn-lg btn-block btn-outline-warning"
+                        th:text="${sanitizedMonitoring}"></button>
+                <button type="button" class="btn btn-lg btn-block btn-outline-secondary"
+                        th:text="${orderList}"></button>
+
+                <button type="button" class="btn btn-lg btn-block btn-primary" th:text="${addToContact}"></button>
+                <button type="button" class="btn btn-lg btn-block btn-success" th:text="${editPerson}"></button>
+                <button type="button" class="btn btn-lg btn-block btn-info" th:text="${deletePerson}"></button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <p layout:fragment="custom-footer"></p>
+    </footer>
+</div>
+</html>

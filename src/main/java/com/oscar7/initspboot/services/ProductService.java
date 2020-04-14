@@ -7,4 +7,12 @@ import org.springframework.data.domain.Pageable;
 public interface ProductService {
     public Page<Product> findProductsPaginated(Pageable pageable);
 
+    /**
+     * creation d'un produit
+     *
+     * @param product
+     */
+    public void addProduct(Product product);
+
+
 }

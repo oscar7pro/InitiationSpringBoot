@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajou d'un produit</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}">
+</head>
+<body>
+
+<div class="container">
+
+    <form action="#" th:action="@{/update/{id}(id=${product.id})}" th:object="${product}" method="post">
+        <div class="alert alert-light" role="alert">
+            <ul class="text-light">
+                <li th:text="*{id}"></li>
+                <li th:text="*{name}"></li>
+                <li th:text="*{description}"></li>
+                <li th:text="*{quantity}"></li>
+                <li th:text="*{price}"></li>
+            </ul>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+            <tr class="bg-success">
+                <th>Atribut du produit</th>
+                <th>Valeur</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><label>Identifient produit</label></td>
+                <td><input type="number" th:field="*{id}" placeholder="id"></td>
+            </tr>
+            <tr>
+                <td><label>libéllé produit</label></td>
+                <td><input type="text" th:field="*{name}" placeholder="Nom"></td>
+            </tr>
+            <tr>
+                <td><label>Description produit</label></td>
+                <td><input type="text" th:field="*{description}" placeholder="La description"></td>
+            </tr>
+            <tr>
+                <td><label>Quantité de produit</label></td>
+                <td><input type="text" th:field="*{quantity}" placeholder="La quantité"></td>
+            </tr>
+            <tr>
+                <td><label>Prix unitaire par produit</label></td>
+                <td><input type="text" th:field="*{price}" placeholder="Prix du produit"></td>
+            </tr>
+            <tr>
+                <td class="table-active" colspan="2"><input class="bg-success" type="submit" value="Valider"></td>
+
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+</body>
+</html>

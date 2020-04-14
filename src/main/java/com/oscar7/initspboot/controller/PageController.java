@@ -8,22 +8,28 @@ import com.oscar7.initspboot.entities.Product;
 import com.oscar7.initspboot.services.CategoryService;
 import com.oscar7.initspboot.services.PersonService;
 import com.oscar7.initspboot.services.ProductService;
+import com.oscar7.initspboot.utils.ProductUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.XSlf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@Log
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Controller
 @RequiredArgsConstructor
@@ -37,6 +43,79 @@ public class PageController {
 
     CategoryService categoryService;
 
+    @GetMapping(value = "/addProduct")
+    public String addProduct(Model model) {
+        model.addAttribute("product", new Product());
+        return "addProduct";
+    }
+
+    /**
+     * Ajouter un produit
+     *
+     * @param model
+     * @return
+     */
+    @PostMapping(value = "/saveProduct")
+    public String saveProduct(@Valid Product product, BindingResult result, ModelMap model) {
+        if (!result.hasErrors()) {
+            List<Product> products = ProductUtils.buildProducts();
+            model.addAttribute("id", product.getId());
+            model.addAttribute("name", product.getName());
+            model.addAttribute("description", product.getDescription());
+            model.addAttribute("price", product.getPrice());
+            model.addAttribute("quantity", product.getQuantity());
+            products.add(product);
+            model.addAttribute("products", products);
+        }
+        return (result.hasErrors()) ? "addProduct" : "productsPage";
+    }
+
+    @PostMapping(value = "/update/{id}")
+    public String updateProduct(@PathVariable("id") int id, @Valid Product product, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            product.setId(id);
+            product.setName(product.getName());
+            product.setDescription(product.getDescription());
+            product.setQuantity(product.getQuantity());
+            product.setPrice(product.getPrice());
+
+            List<Product> products = ProductUtils.buildProducts();
+            model.addAttribute("id", product.getId());
+            model.addAttribute("name", product.getName());
+            model.addAttribute("description", product.getDescription());
+            model.addAttribute("price", product.getPrice());
+            model.addAttribute("quantity", product.getQuantity());
+            products.add(product);
+            model.addAttribute("products", products);
+            log.info("Produit " + product.getName() + " mise à jour");
+        }
+        return result.hasErrors() ? "updateProduct" : "productsPage";
+    }
+
+    /**
+     * Suppression de produit si l'id correspond à celui d'un produit
+     *
+     * @param id    identifiant
+     * @param model le model
+     * @return la liste produit
+     */
+    @GetMapping(value = "/delete/{id}")
+    public String deleteProduct(@PathVariable("id") int id, Model model) {
+        List<Product> products = ProductUtils.buildProducts();
+        for (Product product : products) {
+            if (product.getId() == id) {
+                products.remove(product);
+            }
+            log.info("Produit " + product.getName() + " supprimé");
+        }
+        /*
+        products.removeIf(product -> product.getId() == id);
+        log.info("Produit" +products.get(0).getName() + "supprimé");
+        */
+        return "update-product";
+    }
+
+
     @GetMapping(value = "/")
     public String home(Model model) {
         getProperties(model);
@@ -46,8 +125,8 @@ public class PageController {
     //@RequestMapping(value = "/persons", method = RequestMethod.GET)
     @GetMapping("/persons")
     public String getPersonList(Model model,
-                              @RequestParam("page") Optional<Integer> page,
-                              @RequestParam("size") Optional<Integer> size
+                                @RequestParam("page") Optional<Integer> page,
+                                @RequestParam("size") Optional<Integer> size
     ) {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(7);

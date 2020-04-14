@@ -35,7 +35,6 @@ public class PersonServiceImpl implements PersonService {
     public Person createPerson() {
         Person person = new Person();
         person.setId(1);
-        person.setName();
         person.setId(1);
         person.setId(1);
         person.setId(1);

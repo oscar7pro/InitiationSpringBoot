@@ -8,22 +8,43 @@
 </head>
 <div class="container">
     <div content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <table class="table table-striped ">
-            <thead>
-            <tr>
-                <th>Identifient</th>
-                <th>nom</th>
-                <th>Produits</th>
-            </tr>
-            </thead>
+        <table class="table table-bordered table-sm">
+                <tr>
+                    <th>Identifient</th>
+                    <th>nom</th>
+                    <th colspan="2">Produits</th>
+                </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    <th>reference produit</th>
+                    <th>Libellé</th>
+                    <th>description</th>
+                </tr>
             <tbody>
             <!--    <tr th:each="category, iStat :${categoryPage.content}"
                     th:style="${iStat.odd}? 'fond-weight: bold;'"
                     th:alt-title="${iStat.even}? 'even : 'odd'">-->
-            <tr th:each="category:${categoryPage.content}">
+            <tr th:each="category : ${categoryPage.content}">
                 <td th:text="${category.id}"></td>
                 <td th:text="${category.name}"></td>
-                <td th:text="${category.products}"></td>
+                <!--<td th:text="${category.products}"></td>-->
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <th:block th:each="product : ${category.products}">
+                                <th></th>
+                                <th></th>
+                                <th:block th:text="${product.id}"></th:block>
+                                <th:block th:text="${product.name}"></th:block>
+                                <th:block th:text="${product.description}"></th:block>
+                            </th:block>
+                        </tr>
+
+                    </table>
+
+
+                </td>
             </tr>
             </tbody>
         </table>

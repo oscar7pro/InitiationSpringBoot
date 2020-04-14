@@ -1,0 +1,31 @@
+<html lang="en" xmlns:td="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Page produit</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" td:href="@{css/bootstrap.min.css}">
+</head>
+<div class="container">
+
+    <form action="#" th:field="@{/addProduct}" th:object="${product}" method="post">
+        <div class="form-group">
+            <label>Identifient produit</label>
+            <input type="text" th:field="*{id}" placeholder="id">
+            <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></span>
+            <label>libéllé produit</label>
+            <input type="text" th:field="*{name}" placeholder="Nom">
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+            <label>Description produit</label>
+            <input type="text" th:field="*{description}">
+            <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+            <label>Quantité de produit</label>
+            <input type="text" th:field="*{quantity}">
+            <span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></span>
+            <label>Prix unitaire par produit</label>
+            <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+            <input type="submit" value="Valider">
+
+        </div>
+
+    </form>
+</div>
+</html>

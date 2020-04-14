@@ -31,4 +31,16 @@ public class ProductServiceImpl implements ProductService {
         }
         return new PageImpl<>(productList, PageRequest.of(currentPage, pageSize), products.size());
     }
+
+    /**
+     * creation d'un produit
+     *
+     * @param product
+     */
+    @Override
+    public void addProduct(Product product) {
+        this.products.add(product);
+    }
+
+
 }
