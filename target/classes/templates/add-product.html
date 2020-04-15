@@ -8,24 +8,24 @@
 
     <form action="#" th:field="@{/addProduct}" th:object="${product}" method="post">
         <div class="form-group">
-            <label >Identifient produit</label>
+            <label>Identifient produit</label>
             <input type="text" th:field="*{id}" placeholder="id">
             <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></span>
-            <label >libéllé produit</label>
+            <label>libéllé produit</label>
             <input type="text" th:field="*{name}" placeholder="Nom">
             <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-            <label >Description produit</label>
+            <label>Description produit</label>
             <input type="text" th:field="*{description}">
             <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
-            <label >Quantité de produit</label>
+            <label>Quantité de produit</label>
             <input type="text" th:field="*{quantity}">
             <span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></span>
-            <label >Prix unitaire par produit</label>
+            <label>Prix unitaire par produit</label>
             <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
             <input type="submit" value="Valider">
 
         </div>
-        
+
     </form>
 </div>
 </html>

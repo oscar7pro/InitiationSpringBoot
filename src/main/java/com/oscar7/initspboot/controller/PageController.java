@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -58,7 +59,8 @@ public class PageController {
     @PostMapping(value = "/saveProduct")
     public String saveProduct(@Valid Product product, BindingResult result, ModelMap model) {
         if (!result.hasErrors()) {
-            List<Product> products = ProductUtils.buildProducts();
+            //List<Product> products = ProductUtils.buildProducts();
+            List<Product> products = new ArrayList<>();
             model.addAttribute("id", product.getId());
             model.addAttribute("name", product.getName());
             model.addAttribute("description", product.getDescription());
@@ -72,7 +74,7 @@ public class PageController {
 
     @PostMapping(value = "/update/{id}")
     public String updateProduct(@PathVariable("id") int id, @Valid Product product, BindingResult result, Model model) {
-        if (result.hasErrors()) {
+        if (!result.hasErrors()) {
             product.setId(id);
             product.setName(product.getName());
             product.setDescription(product.getDescription());

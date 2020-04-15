@@ -10,42 +10,35 @@
 <div class="container">
 
     <form action="#" th:action="@{/saveProduct}" th:object="${product}" method="post">
-        <div class="alert alert-light" role="alert">
-            <ul class="text-light">
-                <li th:text="*{id}" ></li>
-                <li th:text="*{name}"></li>
-                <li th:text="*{description}"></li>
-                <li th:text="*{quantity}"></li>
-                <li th:text="*{price}"></li>
-            </ul>
-        </div>
         <table class="table table-bordered">
             <thead>
-                <tr class="bg-success">
-                    <th>Atribut du produit</th>
-                    <th>Valeur</th>
-                </tr>
+            <tr class="bg-success">
+                <th>Atribut du produit</th>
+                <th>Valeur</th>
+            </tr>
             </thead>
             <tbody>
             <tr>
-                <td><label >Identifient produit</label></td>
-                <td><input type="number" th:field="*{id}" placeholder="id"></td>
+                <td><label>Identifient produit</label></td>
+                <td><input type="number" th:field="*{id}" placeholder="id"><span th:if="${#fields.hasErrors('id')}" th:errors="** {id}"></span>
+                </td>
             </tr>
             <tr>
-                <td><label >libéllé produit</label></td>
-                <td><input type="text" th:field="*{name}" placeholder="Nom"></td>
+                <td><label>libéllé produit</label></td>
+                <td><input type="text" th:field="*{name}" placeholder="Nom"><span th:if="${#fields.hasErrors('name')}" th:errors="** {name}"></span>
+                </td>
             </tr>
             <tr>
-                <td> <label >Description produit</label></td>
-                <td> <input type="text" th:field="*{description}" placeholder="La description"></td>
+                <td><label>Description produit</label></td>
+                <td><input type="text" th:field="*{description}" placeholder="La description"><span th:if="${#fields.hasErrors('description')}" th:errors="** {description}"></span></td>
             </tr>
             <tr>
-                <td> <label >Quantité de produit</label></td>
-                <td> <input type="text" th:field="*{quantity}" placeholder="La quantité"></td>
+                <td><label>Quantité de produit</label></td>
+                <td><input type="text" th:field="*{quantity}" placeholder="La quantité"><span th:if="${#fields.hasErrors('quantity')}" th:errors="** {quantity}"></span></td>
             </tr>
             <tr>
-                <td><label >Prix unitaire par produit</label></td>
-                <td><input type="text" th:field="*{price}" placeholder="Prix du produit"></td>
+                <td><label>Prix unitaire par produit</label></td>
+                <td><input type="text" th:field="*{price}" placeholder="Prix du produit"><span th:if="${#fields.hasErrors('price')}" th:errors="** {price}"></span></td>
             </tr>
             <tr>
                 <td class="table-active" colspan="2"><input class="btn btn-primary" type="submit" value="Valider"></td>
@@ -54,6 +47,9 @@
             </tbody>
         </table>
     </form>
+    <p>
+        <a href="../index.html" th:href="@{/}">Return to home</a>
+    </p>
 </div>
 </body>
 </html>
