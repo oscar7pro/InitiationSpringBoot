@@ -13,6 +13,4 @@ public interface ProductService {
      * @param product
      */
     public void addProduct(Product product);
-
-
 }

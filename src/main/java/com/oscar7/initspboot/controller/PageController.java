@@ -13,18 +13,18 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.java.Log;
-import lombok.extern.slf4j.XSlf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,6 +36,7 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 public class PageController {
 
+    private static final String REDIRECT = "redirect:/";
     ConfigProperties configProperties;
 
     PersonService personService;
@@ -45,8 +46,9 @@ public class PageController {
     CategoryService categoryService;
 
     @GetMapping(value = "/addProduct")
-    public String addProduct(Model model) {
+    public String addProduct(final Model model) {
         model.addAttribute("product", new Product());
+        getProperties(model);
         return "addProduct";
     }
 
@@ -57,69 +59,60 @@ public class PageController {
      * @return
      */
     @PostMapping(value = "/saveProduct")
-    public String saveProduct(@Valid Product product, BindingResult result, ModelMap model) {
+    public String saveProduct(@Valid final Product product, final BindingResult result, final ModelMap model) {
         if (!result.hasErrors()) {
-            //List<Product> products = ProductUtils.buildProducts();
-            List<Product> products = new ArrayList<>();
-            model.addAttribute("id", product.getId());
-            model.addAttribute("name", product.getName());
-            model.addAttribute("description", product.getDescription());
-            model.addAttribute("price", product.getPrice());
-            model.addAttribute("quantity", product.getQuantity());
+            List<Product> products = ProductUtils.buildProducts();
             products.add(product);
             model.addAttribute("products", products);
         }
-        return (result.hasErrors()) ? "addProduct" : "productsPage";
+        return (result.hasErrors()) ? REDIRECT + "addProduct" : REDIRECT + "products";
     }
 
-    @PostMapping(value = "/update/{id}")
-    public String updateProduct(@PathVariable("id") int id, @Valid Product product, BindingResult result, Model model) {
-        if (!result.hasErrors()) {
-            product.setId(id);
-            product.setName(product.getName());
-            product.setDescription(product.getDescription());
-            product.setQuantity(product.getQuantity());
-            product.setPrice(product.getPrice());
-
-            List<Product> products = ProductUtils.buildProducts();
-            model.addAttribute("id", product.getId());
-            model.addAttribute("name", product.getName());
-            model.addAttribute("description", product.getDescription());
-            model.addAttribute("price", product.getPrice());
-            model.addAttribute("quantity", product.getQuantity());
-            products.add(product);
-            model.addAttribute("products", products);
-            log.info("Produit " + product.getName() + " mise à jour");
+    @GetMapping(value = "/edit/{id}")
+    public String showUpdateProduct(@PathVariable("id") final int id, final Model model) {
+           List<Product> products =  ProductUtils.buildProducts();
+           for(Product product : products) {
+               model.addAttribute("product",product);
         }
-        return result.hasErrors() ? "updateProduct" : "productsPage";
+        return "updateProduct";
+    }
+
+    @GetMapping(value = "/update/{id}")
+    public String updateProduct(@PathVariable("id") final int id, @Valid final Product product, final BindingResult result, final Model model) {
+        if(result.hasErrors()) {
+            product.setId(id);
+            return "updateProduct";
+        }
+        model.addAttribute("products",ProductUtils.buildProducts());
+        return "productsPage";
     }
 
     /**
      * Suppression de produit si l'id correspond à celui d'un produit
      *
      * @param id    identifiant
-     * @param model le model
      * @return la liste produit
      */
     @GetMapping(value = "/delete/{id}")
-    public String deleteProduct(@PathVariable("id") int id, Model model) {
+    public String deleteProduct(@PathVariable("id") final int id, final Model model) {
         List<Product> products = ProductUtils.buildProducts();
         for (Product product : products) {
             if (product.getId() == id) {
-                products.remove(product);
+               products.remove(product);
             }
             log.info("Produit " + product.getName() + " supprimé");
         }
+        model.addAttribute("products",ProductUtils.buildProducts());
         /*
         products.removeIf(product -> product.getId() == id);
-        log.info("Produit" +products.get(0).getName() + "supprimé");
         */
-        return "update-product";
+
+        return "productsPage";
     }
 
 
     @GetMapping(value = "/")
-    public String home(Model model) {
+    public String home(final Model model) {
         getProperties(model);
         return "index";
     }
@@ -127,9 +120,9 @@ public class PageController {
     //@RequestMapping(value = "/persons", method = RequestMethod.GET)
     @GetMapping("/persons")
     public String getPersonList(Model model,
-                                @RequestParam("page") Optional<Integer> page,
-                                @RequestParam("size") Optional<Integer> size
-    ) {
+                                @RequestParam("page") final Optional<Integer> page,
+                                @RequestParam("size") final Optional<Integer> size) {
+        getProperties(model);
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(7);
         Page<Person> personPage = personService.findPersonsPaginated(PageRequest.of(currentPage - 1, pageSize));
@@ -149,6 +142,7 @@ public class PageController {
         model.addAttribute("productPage", productPage);
         int totalPages = productPage.getTotalPages();
         getPageNumbers(model, totalPages);
+        getProperties(model);
         return "productsPage";
 
     }
@@ -217,4 +211,5 @@ public class PageController {
         model.addAttribute("sanitizedMonitoring", configProperties.getSanitizedMonitoring());
         model.addAttribute("OthersService", configProperties.getOthersService());
     }
+
 }

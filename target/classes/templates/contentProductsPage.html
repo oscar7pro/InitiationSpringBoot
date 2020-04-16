@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml">
+<div th:fragment="fragment">
+    <div content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <table class="table table-bordered ">
+            <thead>
+            <tr>
+                <th>Identifient</th>
+                <th>nom</th>
+                <th>Description</th>
+                <th>Quantité</th>
+                <th>Prix</th>
+                <th>
+
+                    <div>
+            <span>
+                 <a class="badge badge-pill badge-primary" th:href="@{/}" th:text="'Retour à la home page'" ></a>
+            </span>
+                        <span>
+                <a class="badge badge-pill badge-success" th:href="@{/addProduct}" th:text="'Créer un produit'"></a>
+            </span>
+                    </div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product:${productPage.content}">
+                <td th:text="${product.id}"></td>
+                <td th:text="${product.name}"></td>
+                <td th:text="${product.description}"></td>
+                <td th:text="${product.quantity}"></td>
+                <td th:text="${product.price}"></td>
+                <td>
+                    <span class="badge badge-danger">
+                        <a th:href="@{/update/{id}(id =${product.id})}" th:text="Editer"></a>
+                    </span>
+                    <span class="badge badge-warning">
+                        <a th:href="@{/delete/{id}(id =${product.id})}" th:text="Supprimer"></a>
+                    </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <nav aria-label="Pagination" th:if="${productPage.totalPages > 0}">
+            <ul class="pagination justify-content-center font-weight-medium">
+                <li class="page-item" th:classappend="${productPage.number eq 0} ? 'disabled'">
+                    <a class="page-link svg-icon"
+                       th:href="@{/products?page={id}(id=${productPage.number lt 2 ? 1 : productPage.number})}"
+                       aria-label="Previous"
+                       title="Previous Page" rel="tooltip">
+                        <span aria-hidden="true" data-feather="chevrons-left" width="20" height="20">Precedent</span>
+                    </a>
+                </li>
+                <li class="page-item" th:classappend="${pageNumber eq productPage.number + 1} ? 'active'"
+                    th:each="pageNumber : ${#numbers.sequence( productPage.number + 1, productPage.totalPages > 10 + productPage.number ? productPage.number + 10 : productPage.totalPages, 1)}">
+                    <a class="page-link" th:href="@{/products?page={id}(id=${pageNumber})}" th:text="${pageNumber}"
+                       th:title="${'Page '+ pageNumber}"
+                       rel="tooltip"></a>
+                </li>
+                <li class="page-item disabled" th:if="${productPage.number + 10 < productPage.totalPages}">
+                    <a class="page-link svg-icon" href="#">
+                        <span data-feather="more-horizontal" width="20" height="20"></span>
+                    </a>
+                </li>
+                <li class="page-item" th:classappend="${productPage.number + 1 eq productPage.totalPages} ? 'disabled'">
+                    <a class="page-link svg-icon" th:href="@{/products?page={id}(id=${productPage.number + 2})}"
+                       aria-label="Next"
+                       title="Next Page" rel="tooltip">
+                        <span aria-hidden="true" data-feather="chevrons-right" width="20" height="20">Suivant</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div>
+            <span>
+                 <a class="badge badge-pill badge-primary" th:href="@{/}" th:text="'Retour à la home page'" ></a>
+            </span>
+            <span>
+                <a class="badge badge-pill badge-success" th:href="@{/addProduct}" th:text="'Créer un produit'"></a>
+            </span>
+        </div>
+    </div>
+</div>
+</html>
