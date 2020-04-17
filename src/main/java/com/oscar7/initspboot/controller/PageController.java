@@ -45,9 +45,8 @@ public class PageController {
 
     CategoryService categoryService;
 
-    @GetMapping(value = "/addProduct")
-    public String addProduct(final Model model) {
-        model.addAttribute("product", new Product());
+    @GetMapping(value = "/createProduct")
+    public String createProduct(final Product product, final Model model) {
         getProperties(model);
         return "addProduct";
     }
@@ -58,32 +57,39 @@ public class PageController {
      * @param model
      * @return
      */
-    @PostMapping(value = "/saveProduct")
-    public String saveProduct(@Valid final Product product, final BindingResult result, final ModelMap model) {
-        if (!result.hasErrors()) {
-            List<Product> products = ProductUtils.buildProducts();
-            products.add(product);
-            model.addAttribute("products", products);
+    @PostMapping(value = "/addProduct")
+    public String saveProduct(@Valid final Product product, final BindingResult result, final Model model) {
+        getProperties(model);
+        if (result.hasErrors()) {
+            return "addProduct";
         }
-        return (result.hasErrors()) ? REDIRECT + "addProduct" : REDIRECT + "products";
+        ProductUtils.buildProducts().add(product);
+        model.addAttribute("products", ProductUtils.buildProducts());
+        return "productsPage";
+        //return (result.hasErrors()) ? REDIRECT + "addProduct" : REDIRECT + "products";
     }
 
     @GetMapping(value = "/edit/{id}")
-    public String showUpdateProduct(@PathVariable("id") final int id, final Model model) {
+    public String showUpdateFormProduct(@PathVariable("id") final int id, final Model model) {
+        getProperties(model);
            List<Product> products =  ProductUtils.buildProducts();
            for(Product product : products) {
-               model.addAttribute("product",product);
+               if(product.getId() == id) {
+                   model.addAttribute("product",product);
+               }
         }
         return "updateProduct";
     }
 
-    @GetMapping(value = "/update/{id}")
+    @PostMapping(value = "/update/{id}")
     public String updateProduct(@PathVariable("id") final int id, @Valid final Product product, final BindingResult result, final Model model) {
+        getProperties(model);
         if(result.hasErrors()) {
             product.setId(id);
             return "updateProduct";
         }
-        model.addAttribute("products",ProductUtils.buildProducts());
+        ProductUtils.buildProducts().add(product);
+        model.addAttribute("products", ProductUtils.buildProducts());
         return "productsPage";
     }
 
@@ -95,6 +101,7 @@ public class PageController {
      */
     @GetMapping(value = "/delete/{id}")
     public String deleteProduct(@PathVariable("id") final int id, final Model model) {
+        getProperties(model);
         List<Product> products = ProductUtils.buildProducts();
         for (Product product : products) {
             if (product.getId() == id) {
@@ -157,6 +164,7 @@ public class PageController {
         model.addAttribute("categoryPage", categoryPage);
         int totalPages = categoryPage.getTotalPages();
         getPageNumbers(model, totalPages);
+        getProperties(model);
         return "categoriesPage";
 
     }

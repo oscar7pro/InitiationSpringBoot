@@ -6,7 +6,9 @@
         <div class="card-deck mb-3 text-center">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
-                    <button type="button" class="btn btn-lg btn-block btn-danger"  th:href="@{/products}" th:text="${products}"></button>
+                     <span>
+                         <a class="badge badge-pill badge-danger" th:href="@{/products}" th:text="${products}"></a>
+                    </span>
                 </div>
                 <div class="card-body">
                     <button type="button" class="btn btn-lg btn-block btn-outline-primary"
@@ -25,7 +27,9 @@
             </div>
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
-                    <button type="button" class="btn btn-lg btn-block btn-danger" th:href="@{/categories}" th:text="${category}"></button>
+                     <span>
+                         <a class="badge badge-pill badge-danger" th:href="@{/categories}" th:text="${category}"></a>
+                    </span>
                 </div>
                 <div class="card-body">
                     <button type="button" class="btn btn-lg btn-block btn-outline-primary"
@@ -43,7 +47,9 @@
             </div>
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
-                    <button type="button" class="btn btn-lg btn-block btn-danger" th:href="@{/persons}" th:text="${offreProf}"><a th:href="@{/persons}"></a></button>
+                    <span>
+                         <a class="badge badge-pill badge-danger" th:href="@{/persons}" th:text="${offreProf}"></a>
+                    </span>
                 </div>
                 <div class="card-body">
                     <button type="button" class="btn btn-lg btn-block btn-outline-primary"
