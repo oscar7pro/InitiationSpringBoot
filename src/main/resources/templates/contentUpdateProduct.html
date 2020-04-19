@@ -4,61 +4,61 @@
 <div th:fragment="fragment">
     <div class="container">
         <h2 class="mb-5">Mise à jour d'un produit</h2>
-        <div class="row">
-            <div class="col-md-6">
-
-                <form action="#" th:action="@{/update/{id}(id=product.id}" th:object="${product}" method="post">
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr class="bg-success">
-                            <th>Atribut du produit</th>
-                            <th>Valeur</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td><label for="id">Identifient produit</label></td>
-                            <td><input type="number" th:field="*{id}" class="form-control" id="id" placeholder="id">
-                                <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}"  class="text-danger"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="name">libéllé produit</label></td>
-                            <td><input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Nom">
-                                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="description">Description produit</label></td>
-                            <td><input type="text" th:field="*{description}" class="form-control" id="description" placeholder="La description">
-                                <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="quantity">Quantité de produit</label></td>
-                            <td><input type="text" th:field="*{quantity}" class="form-control" id="quantity" placeholder="La quantité">
-                                <span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="text-danger"></span></td>
-                        </tr>
-                        <tr>
-                            <td><label for="price">Prix unitaire par produit</label></td>
-                            <td><input type="text" th:field="*{price}" class="form-control" id="price" placeholder="Prix du produit">
-                                <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></span></td>
-                        </tr>
-                        <tr>
-                            <td class="table-active" colspan="2">
-                                <input class="btn btn-primary" type="submit" value="Mise à jour du Produit">
-                            </td>
-
-                        </tr>
-                        </tbody>
-                    </table>
-                </form>
-            </div>
-        </div>
+        <form action="#" th:action="@{/update/{id}(id=${product.id})}" th:object="${product}" method="post">
+            <table class="table table-bordered">
+                <thead>
+                <tr class="bg-success">
+                    <th>Atribut du produit</th>
+                    <th>Valeur</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><label for="id">Identifient produit</label></td>
+                    <td><input type="number" th:field="*{id}" class="form-control" id="id" placeholder="id">
+                        <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="name">libéllé produit</label></td>
+                    <td><input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Nom">
+                        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="description">Description produit</label></td>
+                    <td><input type="text" th:field="*{description}" class="form-control" id="description"
+                               placeholder="La description">
+                        <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+                              class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="quantity">Quantité de produit</label></td>
+                    <td><input type="text" th:field="*{quantity}" class="form-control" id="quantity"
+                               placeholder="La quantité">
+                        <span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"
+                              class="text-danger"></span></td>
+                </tr>
+                <tr>
+                    <td><label for="price">Prix unitaire par produit</label></td>
+                    <td><input type="text" th:field="*{price}" class="form-control" id="price"
+                               placeholder="Prix du produit">
+                        <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table-active" colspan="2">
+                        <input class="btn btn-primary" type="submit" value="Mise à jour du Produit">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
         <div>
-            <p>
-                <a th:href="@{/}" th:text="'Retour à la home page'"></a>
-            </p>
+            <span>
+                 <a class="badge badge-pill badge-primary" th:href="@{/}" th:text="'Retour à la home page'"></a>
+            </span>
         </div>
     </div>
 </div>

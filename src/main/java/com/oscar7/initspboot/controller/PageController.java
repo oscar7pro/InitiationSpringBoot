@@ -64,8 +64,7 @@ public class PageController {
             return "addProduct";
         }
         ProductUtils.buildProducts().add(product);
-        model.addAttribute("products", ProductUtils.buildProducts());
-        return "productsPage";
+        return REDIRECT + "products";
         //return (result.hasErrors()) ? REDIRECT + "addProduct" : REDIRECT + "products";
     }
 
@@ -89,8 +88,7 @@ public class PageController {
             return "updateProduct";
         }
         ProductUtils.buildProducts().add(product);
-        model.addAttribute("products", ProductUtils.buildProducts());
-        return "productsPage";
+        return REDIRECT + "products";
     }
 
     /**
@@ -106,15 +104,15 @@ public class PageController {
         for (Product product : products) {
             if (product.getId() == id) {
                products.remove(product);
+               break;
             }
             log.info("Produit " + product.getName() + " supprimé");
         }
-        model.addAttribute("products",ProductUtils.buildProducts());
         /*
         products.removeIf(product -> product.getId() == id);
         */
 
-        return "productsPage";
+        return REDIRECT + "products";
     }
 
 

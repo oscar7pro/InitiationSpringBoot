@@ -13,18 +13,17 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product {
-    @NotNull( message = "La reference est compris entre 1 et 10000")
+
+    @NegativeOrZero( message = "Zéro exclut ou non negatif")
     int id;
 
-    @Size(min = 5, max = 200, message = "le nom doit comprends 5 caracteres minimum")
+    @Size(min = 5, max = 200, message = "Completer le nom")
     String name;
 
-    @Size(min = 5, max = 200, message = "le nom doit comprends 5 caracteres minimum")
+    @Size(min = 5, max = 200, message = "Completer la decription")
     String description;
 
-    @NotNull( message = "La quantité est different de null")
     int quantity;
 
-    @Positive(message = "le prix est toujours non nul et positif")
     Double price;
 }
