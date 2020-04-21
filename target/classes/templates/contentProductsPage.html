@@ -2,7 +2,8 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml">
 <div th:fragment="fragment">
     <div content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <table class="table table-bordered ">
+        <div class="table-responsive">
+        <table class="table table-sm table-bordered ">
             <thead>
             <tr>
                 <th>Identifient</th>
@@ -10,14 +11,18 @@
                 <th>Description</th>
                 <th>Quantité</th>
                 <th>Prix</th>
+                <th>Actions</th>
                 <th>
 
                     <div>
             <span>
                  <a class="badge badge-pill badge-primary" th:href="@{/}" th:text="'Retour à la home page'"></a>
             </span>
-                        <span>
-                <a class="badge badge-pill badge-success" th:href="@{/createProduct}" th:text="'Ajouter un nouveau produi'"></a>
+            <span>
+                <a class="badge badge-pill badge-success" th:href="@{/createProduct}" th:text="'Ajouter un nouveau produit'"></a>
+            </span>
+            <span>
+                <!--<a class="badge badge-pill badge-info" th:href="@{/find/{id}(id = ${product.id})}" th:text="'Rechercher un produit'"></a>-->
             </span>
                     </div>
                 </th>
@@ -37,10 +42,15 @@
                     <span class="badge badge-warning">
                         <a th:href="@{/delete/{id}(id =${product.id})}" th:text="Supprimer"></a>
                     </span>
+                    <span>
+                <a class="badge badge-info" th:href="@{/find/{id}(id = ${product.id})}" th:text="'Afficher ce produit'"></a>
+            </span>
                 </td>
+                <td></td>
             </tr>
             </tbody>
         </table>
+        </div>
         <nav aria-label="Pagination" th:if="${productPage.totalPages > 0}">
             <ul class="pagination justify-content-center font-weight-medium">
                 <li class="page-item" th:classappend="${productPage.number eq 0} ? 'disabled'">

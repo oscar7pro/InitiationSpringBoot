@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:insert="~{ header :: fragment }">
+</head>
+
+<body>
+<div class="container">
+    <div th:insert="~{ menu :: fragment }"></div>
+    <div th:include="legend :: fragment"></div>
+    <div th:include="contentFindProduct :: fragment"></div>
+    <div th:include="footer :: fragment"></div>
+</div>
+</body>
+</html>

@@ -8,8 +8,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -40,6 +42,41 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void addProduct(Product product) {
         this.products.add(product);
+    }
+
+    /**
+     * recherche d'un produit par nom
+     *
+     * @return le produit correspondant
+     */
+    @Override
+    public Product findProductById(final int id) {
+
+        for(Product product: ProductUtils.buildProducts()) {
+            if(product.getId() == id) {
+                return product;
+            }
+        }
+        return null;
+
+    }
+
+    /**
+     * recherche d'un produit par nom ou id
+     *
+     * @param name l'identifient produit
+     * @return le produit correspondant
+     */
+    @Override
+    public Product findProductByName(String name) {
+        Iterator<Product> productIterator = ProductUtils.buildProducts().iterator();
+        while (productIterator.hasNext()) {
+            Product product = productIterator.next();
+            if(product.getName().equalsIgnoreCase(name)) {
+                return product;
+            }
+        }
+        return null;
     }
 
 

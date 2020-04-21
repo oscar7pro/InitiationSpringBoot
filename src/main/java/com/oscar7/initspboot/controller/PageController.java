@@ -17,7 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -101,18 +100,44 @@ public class PageController {
     public String deleteProduct(@PathVariable("id") final int id, final Model model) {
         getProperties(model);
         List<Product> products = ProductUtils.buildProducts();
-        for (Product product : products) {
+     /*   for (Product product : products) {
             if (product.getId() == id) {
                products.remove(product);
                break;
             }
             log.info("Produit " + product.getName() + " supprimé");
-        }
-        /*
+        }*/
         products.removeIf(product -> product.getId() == id);
-        */
+
 
         return REDIRECT + "products";
+    }
+
+    /**
+     * Recherche
+     * @param model
+     * @return produit
+     */
+    @GetMapping(value = "/find/{id}")
+    public String findProductByName(@PathVariable("id") final int id, final Model model) {
+        getProperties(model);
+        Product product = productService.findProductById(id);
+        model.addAttribute("productById",product);
+        return "findProductPage";
+    }
+
+    /**
+     * Recherche
+     * @param model
+     * @return produit
+     */
+    @GetMapping(value = "/find/{name}")
+    public String searchProductByName(@PathVariable("name") final String name, final BindingResult result, final Model model) {
+        getProperties(model);
+        Product product = productService.findProductByName(name);
+        model.addAttribute("productByName",product);
+        //return result.hasErrors() ? "searchProductPage": REDIRECT +"productsPage";
+        return  "searchProductPage";
     }
 
 

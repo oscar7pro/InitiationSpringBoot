@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
 @AllArgsConstructor
 public class Product {
 
-    @NegativeOrZero( message = "Zéro exclut ou non negatif")
+    @NotNull( message = "Ne dois pas être null")
     int id;
 
     @Size(min = 5, max = 200, message = "Completer le nom")
