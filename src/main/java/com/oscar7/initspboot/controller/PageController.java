@@ -108,8 +108,6 @@ public class PageController {
             log.info("Produit " + product.getName() + " supprimé");
         }*/
         products.removeIf(product -> product.getId() == id);
-
-
         return REDIRECT + "products";
     }
 
@@ -131,13 +129,12 @@ public class PageController {
      * @param model
      * @return produit
      */
-    @GetMapping(value = "/find/{name}")
-    public String searchProductByName(@PathVariable("name") final String name, final BindingResult result, final Model model) {
+    @GetMapping(value = "/search/{name}")
+    public String searchProductByName(@PathVariable("name") final String name, final Model model) {
         getProperties(model);
         Product product = productService.findProductByName(name);
-        model.addAttribute("productByName",product);
-        //return result.hasErrors() ? "searchProductPage": REDIRECT +"productsPage";
-        return  "searchProductPage";
+        model.addAttribute("product",product);
+        return REDIRECT +"productsPage";
     }
 
 

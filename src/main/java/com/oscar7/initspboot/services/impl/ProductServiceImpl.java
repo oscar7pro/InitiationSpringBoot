@@ -69,15 +69,13 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public Product findProductByName(String name) {
-        Iterator<Product> productIterator = ProductUtils.buildProducts().iterator();
-        while (productIterator.hasNext()) {
-            Product product = productIterator.next();
-            if(product.getName().equalsIgnoreCase(name)) {
-                return product;
-            }
-        }
-        return null;
+        return ProductUtils.buildProducts()
+                .stream()
+                .filter(product -> product.getName().equalsIgnoreCase(name))
+                .findFirst()
+                .orElse(null);
     }
+
 
 
 }

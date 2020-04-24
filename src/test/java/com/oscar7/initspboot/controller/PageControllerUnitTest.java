@@ -42,7 +42,7 @@ public class PageControllerUnitTest {
     }
 
 
-    private MockMvc mockMvc;
+    MockMvc mockMvc;
 
     @InjectMocks
     PageController controller;
@@ -164,6 +164,23 @@ public class PageControllerUnitTest {
 
         // Then
         Assert.assertEquals(pageVue, result);
+    }
+    @Test
+    public void should_view_product_page_when_getProductList_is_called() throws Exception {
+        // Given
+        String url = "/products";
+        String pageVue = "productsPage";
+        Mockito.doReturn(pageProduct).when(productService).findProductsPaginated(Mockito.any(Pageable.class));
+
+        // When
+        //Model model = Mockito.mock(Model.class);
+        MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.get(url))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name(pageVue))
+                .andReturn();
+
+      // Then
+        Assert.assertNotNull(result.getModelAndView());
     }
 
     @Test
