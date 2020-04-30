@@ -30,8 +30,8 @@ public class ProductServiceImplUnitTest {
     @Mock
     Pageable pageable;
 
-    @Mock
-    List<Product> products;
+  /*  @Mock
+    List<Product> products;*/
 
     @Test
     public void when_products_size_is_inferior_to_start_page_then_return_emptyList() {
@@ -42,14 +42,14 @@ public class ProductServiceImplUnitTest {
         final List<Product> productList = Collections.emptyList();
         Mockito.doReturn(pageSize).when(pageable).getPageSize();
         Mockito.doReturn(currentPage).when(pageable).getPageNumber();
-        Mockito.doReturn(productList).when(products).subList(Mockito.anyInt(), Mockito.anyInt());
+    //    Mockito.doReturn(productList).when(products).subList(Mockito.anyInt(), Mockito.anyInt());
 
         // When
         Page<Product> result = productService.findProductsPaginated(pageable);
 
         // Then
         Assert.assertEquals(startProductPage, result.getSize());
-        Assert.assertTrue(products.size() < startProductPage);
+        Assert.assertEquals(pageSize, result.getContent().size());
         Assert.assertTrue(startProductPage < result.getTotalPages());
     }
 
@@ -65,7 +65,7 @@ public class ProductServiceImplUnitTest {
         productList.add(product);
         Mockito.doReturn(pageSize).when(pageable).getPageSize();
         Mockito.doReturn(currentPage).when(pageable).getPageNumber();
-        Mockito.doReturn(productList).when(products).subList(startProductPage, toIndex);
+      //  Mockito.doReturn(productList).when(products).subList(startProductPage, toIndex);
         // When
         Page<Product> result = productService.findProductsPaginated(pageable);
 
@@ -73,7 +73,6 @@ public class ProductServiceImplUnitTest {
         Assert.assertEquals(startProductPage, result.getSize());
         Assert.assertTrue(result.getTotalPages() > startProductPage);
         Assert.assertEquals(startProductPage, result.getContent().size());
-        Assert.assertTrue(products.size() > startProductPage);
     }
 
     @Test
@@ -84,7 +83,6 @@ public class ProductServiceImplUnitTest {
         final List<Product> productList = new ArrayList<>();
         productList.add(product);
         Mockito.doReturn(id).when(product).getId();
-        Mockito.doReturn(productList).when(products).subList(Mockito.anyInt(), Mockito.anyInt());
         // When
         Product result = productService.findProductById(id);
 
@@ -99,7 +97,7 @@ public class ProductServiceImplUnitTest {
         final List<Product> productList = new ArrayList<>();
         productList.add(product);
         //Mockito.doReturn(null).when(product).getId();
-        Mockito.doReturn(productList).when(products).subList(Mockito.anyInt(), Mockito.anyInt());
+      //  Mockito.doReturn(productList).when(products).subList(Mockito.anyInt(), Mockito.anyInt());
         // When
         Product result = productService.findProductById(id);
 
