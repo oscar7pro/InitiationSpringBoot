@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * recherche d'un produit par nom
+     * recherche d'un produit par id
      *
      * @return le produit correspondant
      */
