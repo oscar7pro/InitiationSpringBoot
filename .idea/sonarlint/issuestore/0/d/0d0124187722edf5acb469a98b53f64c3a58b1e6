@@ -1,7 +1,7 @@
 
-g
-java:S11922"KDefine a constant instead of duplicating this literal "addProduct" 3 times.(Äë‘A8«»¬Öš.
+X	java:S125h"<This block of commented-out lines of code should be removed.(Î¶’8«»¬Öš.
 k
-java:S1192B"IDefine a constant instead of duplicating this literal "products" 4 times.(ßòúÖşÿÿÿÿ8«»¬Öš.
-]	java:S125C"<This block of commented-out lines of code should be removed.(‡¤çµşÿÿÿÿ8«»¬Öš.
-X	java:S125g"<This block of commented-out lines of code should be removed.(Î¶’8«»¬Öš.
+java:S1192C"IDefine a constant instead of duplicating this literal "products" 4 times.(ßòúÖşÿÿÿÿ8«»¬Öš.
+g
+java:S11923"KDefine a constant instead of duplicating this literal "addProduct" 3 times.(Äë‘A8«»¬Öš.
+]	java:S125D"<This block of commented-out lines of code should be removed.(‡¤çµşÿÿÿÿ8«»¬Öš.

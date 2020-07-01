@@ -44,6 +44,7 @@ public class PageController {
 
     CategoryService categoryService;
 
+
     @GetMapping(value = "/createProduct")
     public String createProduct(final Product product, final Model model) {
         getProperties(model);

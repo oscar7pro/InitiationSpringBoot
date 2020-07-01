@@ -1,2 +1,5 @@
+com/oscar7/initspboot/services/impl/PersonServiceImplUnitTest.class
+com/oscar7/initspboot/services/impl/CategoryServiceImplUnitTest.class
 com/oscar7/initspboot/controller/PageControllerUnitTest.class
+com/oscar7/initspboot/services/impl/ProductServiceImplUnitTest.class
 com/oscar7/initspboot/controller/PageControllerIntegrationTest.class

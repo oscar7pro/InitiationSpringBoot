@@ -34,10 +34,11 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Person createPerson() {
         Person person = new Person();
-        person.setId(1);
-        person.setId(1);
-        person.setId(1);
-        person.setId(1);
+        person.setId(person.getId());
+        person.setName(person.getName());
+        person.setEmail(person.getEmail());
+        person.setBirthDay(person.getBirthDay());
+        person.setFirstName(person.getFirstName());
         return person;
 
     }
