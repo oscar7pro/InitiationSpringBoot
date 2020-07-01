@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title th:txt="${title}"></title>
+</head>
+<style>
+    span { color:blue; }
+
+
+</style>
+<body>
+<!-- include _menu.html -->
+<th:block th:include="/_menu"></th:block>
+<h2>You have successfully registered!</h2>
+<div th:if="${flashUser != null}">
+    <ul>
+        <il>User Name: <span th:txt="${flashUser.userName}">...</span></il>
+        <il>Email: <span th:txt="${flashUser.email}">...</span></il>
+    </ul>
+</div>
+
+
+</body>
+</html>

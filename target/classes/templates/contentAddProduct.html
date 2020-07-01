@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="fragment">
+    <div class="container">
+        <h2 class="mb-5">Nouveau produit</h2>
+                <form action="#" th:action="@{/addProduct}" th:object="${product}" method="post">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr class="bg-success">
+                            <th>Atribut du produit</th>
+                            <th>Valeur</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><label>Identifient produit</label></td>
+                            <td>
+                                <input type="number" th:field="*{id}" placeholder="Id">
+                                <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="text-danger"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>libéllé produit</label></td>
+                            <td><input type="text" th:field="*{name}" placeholder="Nom">
+                                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Description produit</label></td>
+                            <td><input type="text" th:field="*{description}" placeholder="La description">
+                                <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Quantité de produit</label></td>
+                            <td><input type="text" th:field="*{quantity}" placeholder="La quantité">
+                                <span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="text-danger"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Prix unitaire par produit</label></td>
+                            <td><input type="text" th:field="*{price}" placeholder="Prix du produit">
+                                <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table-active" colspan="2">
+                                <input class="btn btn-primary" type="submit" value="Ajout d'un Produit">
+                            </td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+
+        <div>
+            <span>
+                 <a class="badge badge-pill badge-primary" th:href="@{/}" th:text="'Retour à la home page'"></a>
+            </span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

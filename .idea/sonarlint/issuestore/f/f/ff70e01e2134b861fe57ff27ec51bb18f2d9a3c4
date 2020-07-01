@@ -1,0 +1,13 @@
+
+X
+java:S1128"CRemove this unused import 'com.oscar7.initspboot.entities.Product'.(ØÂ‰f
+G
+java:S1602",Remove useless curly braces around statement(Ä‰„Äýÿÿÿÿ
+U
+java:S1118":Add a private constructor to hide the implicit public one.(«”¡üýÿÿÿÿ
+z
+java:S3008"_Rename this field "MIN_COUNT_CATEGORIES" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(âËÎ‡úÿÿÿÿ
+[
+java:S1124"EReorder the modifiers to comply with the Java Language Specification.(çâ‹Ã
+v
+java:S3008"[Rename this field "COUNT_CATEGORIES" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ãîÿ©ýÿÿÿÿ

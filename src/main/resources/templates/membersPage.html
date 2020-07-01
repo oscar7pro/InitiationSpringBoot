@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title th:txt="${title}"></title>
+</head>
+<style>
+    table th , table td {padding:5px;} .message{ color:blue;}
+
+</style>
+<body>
+<!-- include _menu.html -->
+<th:block th:include="/_menu"></th:block>
+<h2>Members</h2>
+<table border="1">
+    <tr>
+        <th>User Name</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Gender</th>
+    </tr>
+    <tr th:each="member : ${members}">
+        <th th:txt="${member.userName}">&nbsp;</th>
+        <th th:txt="${member.firstName}">&nbsp;</th>
+        <th th:txt="${member.lastName}">&nbsp;</th>
+        <th th:txt="${member.email}">&nbsp;</th>
+        <th th:txt="${member.gender}">&nbsp;</th>
+    </tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="fragment">
+    <div class="container">
+        <h2 class="mb-5">Page produit</h2>
+                    <table class="table table-bordered" th:Objet="${productById}">
+                        <thead>
+                        <tr class="bg-info">
+                            <th>Atribut du produit</th>
+                            <th>Valeur</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><label>Identifient produit</label></td>
+                            <td>
+                                <p type="number" th:text="${productById.id}" placeholder="Id"></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>libéllé produit</label></td>
+                            <td><p type="text" th:text="${productById.name}" placeholder="Nom">nom</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Description produit</label></td>
+                            <td><p type="text" th:text="${productById.description}" placeholder="La description"></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Quantité de produit</label></td>
+                            <td><p type="text" th:text="${productById.quantity}" placeholder="La quantité"></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Prix unitaire par produit</label></td>
+                            <td><p type="text" th:text="${productById.price}" placeholder="Prix du produit"></p>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+        <div>
+            <span>
+                 <a class="badge badge-pill badge-info" th:href="@{/}" th:text="'Retour à la home page'"></a>
+            </span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

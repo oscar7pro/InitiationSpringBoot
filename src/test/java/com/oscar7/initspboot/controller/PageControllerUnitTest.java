@@ -1,8 +1,9 @@
 package com.oscar7.initspboot.controller;
 
-
 import com.oscar7.initspboot.config.ConfigProperties;
+import com.oscar7.initspboot.entities.Category;
 import com.oscar7.initspboot.entities.Person;
+import com.oscar7.initspboot.entities.Product;
 import com.oscar7.initspboot.services.CategoryService;
 import com.oscar7.initspboot.services.PersonService;
 import com.oscar7.initspboot.services.ProductService;
@@ -15,38 +16,32 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.View;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @RunWith(MockitoJUnitRunner.class)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PageControllerUnitTest {
+    @Mock
+    View view;
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        // MockitoAnnotations.initMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).setSingleView(view).build();
     }
+
+
     MockMvc mockMvc;
 
     @InjectMocks
@@ -63,19 +58,40 @@ public class PageControllerUnitTest {
     CategoryService categoryService;
 
     @Mock
-    ConfigProperties configProperties ;
+    ConfigProperties configProperties;
 
     @Mock
-    Page<Person> personPage;
+    Page<Person> pagePerson;
 
+    @Mock
+    Page<Product> pageProduct;
+
+    @Mock
+    Page<Category> pageCategories;
 
     @Test
-    public void return_index_when_home() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/"))
+    public void return_page_view_index_when_home_is_called() throws Exception {
+        final String urlTemplate = "/";
+        final String viewPageName = "index";
+        MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.get(urlTemplate))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("index"))
+                .andExpect(MockMvcResultMatchers.view().name(viewPageName))
                 .andReturn();
+        Assert.assertNotNull(result.getModelAndView());
+    }
 
+    @Test
+    public void should_page_view_person_page_when_getPersonList_is_called() throws Exception {
+        final String urlTemplate = "/persons";
+        final String viewPageName = "personsPage.html";
+        Pageable pageable = Mockito.mock(Pageable.class);
+
+        Mockito.doReturn(pagePerson).when(personService).findPersonsPaginated(Mockito.any(Pageable.class));
+        MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.get(urlTemplate))
+
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name(viewPageName))
+                .andReturn();
         Assert.assertNotNull(result.getModelAndView());
     }
 
@@ -94,6 +110,7 @@ public class PageControllerUnitTest {
 
     @Test
     public void called_home_fail_when_return_is_not_index() {
+        // Given
         String pageVue = "";
         Model model = Mockito.mock(Model.class);
 
@@ -105,37 +122,111 @@ public class PageControllerUnitTest {
     }
 
     @Test
-    public void should_return_person_page_when_getPersonList_is_called () {
+    public void return_view_person_page_when_getPersonList_is_called() {
         // Given
-
-        Optional<Integer> page = Mockito.mock(Optional.class);
-        Optional<Integer> size = Mockito.mock(Optional.class);
-                ;
-
-        // @Mock
-
-        String viewPage = "personsPage";
-        int currentPage = page.orElse(1);
-        int pageSize = size.orElse(3);
-        int totalePages = 45;
-        PageRequest pageRequest = PageRequest.of(currentPage - 1, pageSize);
+        String pageVue = "personsPage.html";
         Model model = Mockito.mock(Model.class);
-        Mockito.doReturn(personPage).when(personService).findPersonsPaginated(pageRequest);
-        Mockito.doReturn(totalePages).when(personPage).getTotalPages();
-        List<Integer> pageNumbers = new ArrayList<>();
-        pageNumbers.add(100);
-        IntStream.rangeClosed(1, totalePages).boxed().collect(Collectors.toList());
-        Mockito.doReturn(pageNumbers).when(IntStream.rangeClosed(1, totalePages));
-
-        Person person = Mockito.mock(Person.class);
-
+        Mockito.doReturn(pagePerson).when(personService).findPersonsPaginated(Mockito.any(Pageable.class));
+        Mockito.doReturn(5).when(pagePerson).getTotalPages();
 
         // When
-        String result = controller.getPersonList(model, page,size);
+        String result = controller.getPersonList(model, Optional.empty(), Optional.empty());
 
         // Then
-        Assert.assertEquals(viewPage,result);
-
+        Assert.assertEquals(pageVue, result);
     }
+
+    @Test
+    public void fail_getPersonList_when_view_page_is_different() {
+        // Given
+        final String pageVue = "personPage.html";
+        Model model = Mockito.mock(Model.class);
+        Mockito.doReturn(pagePerson).when(personService).findPersonsPaginated(Mockito.any(Pageable.class));
+        Mockito.doReturn(5).when(pagePerson).getTotalPages();
+
+        // When
+        String result = controller.getPersonList(model, Optional.empty(), Optional.empty());
+
+        // Then
+        Assert.assertNotEquals("Page differente : ", pageVue, result);
+    }
+
+    @Test
+    public void return_view_product_page_when_getProductList_is_called() {
+        // Given
+        String pageVue = "productsPage";
+        Model model = Mockito.mock(Model.class);
+        Mockito.doReturn(pageProduct).when(productService).findProductsPaginated(Mockito.any(Pageable.class));
+        Mockito.doReturn(5).when(pageProduct).getTotalPages();
+
+        // When
+        String result = controller.getProductList(model, Optional.empty(), Optional.empty());
+
+        // Then
+        Assert.assertEquals(pageVue, result);
+    }
+    @Test
+    public void should_view_product_page_when_getProductList_is_called() throws Exception {
+        // Given
+        String url = "/products";
+        String pageVue = "productsPage";
+        Mockito.doReturn(pageProduct).when(productService).findProductsPaginated(Mockito.any(Pageable.class));
+
+        // When
+        //Model model = Mockito.mock(Model.class);
+        MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.get(url))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name(pageVue))
+                .andReturn();
+
+      // Then
+        Assert.assertNotNull(result.getModelAndView());
+    }
+
+    @Test
+    public void fail_when_view_is_not_product_page() {
+        // Given
+        String pageVue = "productPage";
+        Model model = Mockito.mock(Model.class);
+        Mockito.doReturn(pageProduct).when(productService).findProductsPaginated(Mockito.any(Pageable.class));
+        Mockito.doReturn(5).when(pageProduct).getTotalPages();
+
+        // When
+        String result = controller.getProductList(model, Optional.empty(), Optional.empty());
+
+        // Then
+        Assert.assertNotEquals(pageVue, result);
+    }
+
+    @Test
+    public void should_return_view_categories_page() {
+        // Given
+        String pageVue = "categoriesPage";
+        Model model = Mockito.mock(Model.class);
+        Mockito.doReturn(pageCategories).when(categoryService).findCategoriesPage(Mockito.any(Pageable.class));
+        Mockito.doReturn(5).when(pageCategories).getTotalPages();
+
+        // When
+        String result = controller.getCategoryList(model, Optional.empty(), Optional.empty());
+
+        // Then
+        Assert.assertEquals(pageVue, result);
+    }
+
+    @Test
+    public void fail_when_view_is_not_categories_page() {
+        // Given
+        String pageVue = "categoryPage";
+        Model model = Mockito.mock(Model.class);
+        Mockito.doReturn(pageCategories).when(categoryService).findCategoriesPage(Mockito.any(Pageable.class));
+        Mockito.doReturn(5).when(pageCategories).getTotalPages();
+
+        // When
+        String result = controller.getCategoryList(model, Optional.empty(), Optional.empty());
+
+        // Then
+        Assert.assertNotEquals(pageVue, result);
+    }
+
 
 }
